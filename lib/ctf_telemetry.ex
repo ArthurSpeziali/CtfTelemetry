@@ -1,43 +1,86 @@
 defmodule CtfTelemetry do
-  # General Parser of one line of the chat
-  @spec parser(line :: String.t()) :: no_return()
-  def parser(line) when is_binary(line) do
-    # Ignore '[HH:MM:SS] [Client thread/INFO]: '
-    string = String.slice(line, 33..-1//1)
+  alias CtfTelemetry.Core.Players.Api
+  @type status() :: %{kills: pos_integer(), deaths: pos_integer()}
+  @type rank() :: [{nick :: String.t(), value :: pos_integer()}]
 
-    # Delegate the function to the respective role
-    cond do
-      # Chat Role interception
-      String.slice(string, 0..6//1) == "[CHAT] " ->
-        # Ignore '[CHAT] ' and the final '\n'
-        string = String.slice(string, 7..-2//1)
-        # If all matchs, so execute the delegate function
-        if string != " ", do: chat_delegate(string)
+  # Increment +1 kill
+  @spec kill(nick :: String.t()) :: :ok
+  def kill(nick) when is_binary(nick) do
+    case Api.get_nick(nick) do
+      # If exists, update the register
+      {:ok, querry} ->
+        Api.update(
+          nick,
+          %{kills: querry.kills + 1}
+        )
 
-      # If no one above, just return a nil
-      true ->
+      # If not exists, create the register
+      {:error, "not found"} ->
+        Api.insert(%{nick: nick, kills: 1})
+    end
+
+    :ok
+  end
+
+  # Increment +1 death
+  @spec death(nick :: String.t()) :: :ok
+  def death(nick) when is_binary(nick) do
+    case Api.get_nick(nick) do
+      # If exists, update the register
+      {:ok, querry} ->
+        Api.update(
+          nick,
+          %{deaths: querry.deaths + 1}
+        )
+
+      # If not exists, create new register
+      {:error, "not found"} ->
+        Api.insert(%{nick: nick, deaths: 1})
+    end
+
+    :ok
+  end
+
+  # Get status (Kills and deaths) of a player 
+  @spec get_nick(nick :: String.t()) :: status() | nil
+  def get_nick(nick) when is_binary(nick) do
+    case Api.get_nick(nick) do
+      {:ok, querry} ->
+        %{
+          kills: querry.kills,
+          deaths: querry.deaths
+        }
+
+      {:error, "not found"} ->
         nil
     end
   end
 
-  @spec chat_delegate(string :: String.t()) :: :ok
-  def chat_delegate(string) do
-    # Using matching-assigning to sub-delegate each function
-    case string do
-      # If you kill a player... 
-      <<"Você matou ", nick::binary>> ->
-        # Remove the last char, in this case a '.'
-        String.slice(nick, 0..-2//1)
-        |> CtfTelemetry.Context.kill()
+  # Top X kills of all players
+  @spec top_kills(top :: pos_integer()) :: rank()
+  def top_kills(top) when is_integer(top) do
+    case Api.order(:kills, top) do
+      {:ok, querry} ->
+        Enum.map(querry, fn item ->
+          {item.nick, item.kills}
+        end)
 
-      # If you was be killed by a player...
-      <<"Você morreu para ", nick::binary>> ->
-        String.slice(nick, 0..-2//1)
-        |> CtfTelemetry.Context.death()
+      {:error, "not found"} ->
+        nil
+    end
+  end
 
-      # If no one above, just return a :ok
-      _ ->
-        :ok
+  # Top X deaths of all players
+  @spec top_deaths(top :: pos_integer()) :: rank()
+  def top_deaths(top) when is_integer(top) do
+    case Api.order(:deaths, top) do
+      {:ok, querry} ->
+        Enum.map(querry, fn item ->
+          {item.nick, item.deaths}
+        end)
+
+      {:error, "not found"} ->
+        nil
     end
   end
 end

@@ -31,7 +31,7 @@ defmodule CtfTelemetry.Server.ReaderServer do
     line = Enum.at(stream, next)
 
     # Calls the general parser
-    CtfTelemetry.parser(line)
+    CtfTelemetry.Delegate.parser(line)
     # Recursive function
     reader(stream, next + 1, len)
   end
