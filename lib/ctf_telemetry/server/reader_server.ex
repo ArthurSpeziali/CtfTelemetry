@@ -17,22 +17,21 @@ defmodule CtfTelemetry.Server.ReaderServer do
     spawn_link(
       @mod,
       :reader,
-      [stream, 1, Enum.count(stream)]
+      [stream, 0, Enum.count(stream)]
     )
 
     {:ok, stream}
   end
 
-  @spec reader(stream :: File.Stream.t(), next :: pos_integer(), len :: pos_integer()) ::
+  @spec reader(stream :: File.Stream.t(), next :: non_neg_integer(), len :: pos_integer()) ::
           no_return()
-  def reader(stream, next, len) when next <= len do
+  def reader(stream, next, len) when next < len do
     # If there's more lines in the Stream,
     # Pick the next line avaliable
     line = Enum.at(stream, next)
 
-    # Calls the general parser 
+    # Calls the general parser
     CtfTelemetry.parser(line)
-    IO.gets("Enter: ")
     # Recursive function
     reader(stream, next + 1, len)
   end

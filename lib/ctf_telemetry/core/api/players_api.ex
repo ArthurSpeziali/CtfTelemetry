@@ -49,4 +49,15 @@ defmodule CtfTelemetry.Core.Players.Api do
       error -> error
     end
   end
+
+  def order(field, limit) do
+    from(Players)
+    |> order_by(desc: ^field)
+    |> limit(^limit)
+    |> Repo.all()
+    |> case do
+      nil -> {:error, "not found"}
+      querry -> {:ok, querry}
+    end
+  end
 end

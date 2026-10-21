@@ -25,13 +25,13 @@ badd +3 lib/ctf_telemetry/core/players.ex
 badd +108 /mnt/Arquivos/ElixirWorks/MaxGallery/lib/max_gallery/context.ex
 badd +1 ../MaxGallery/lib/max_gallery.ex
 badd +1 ../MaxGallery/lib/max_gallery/release.ex
-badd +5 lib/ctf_telemetry/context.ex
+badd +79 lib/ctf_telemetry/context.ex
 badd +20 ../MaxGallery/lib/max_gallery/core/api/cypher_api.ex
 badd +19 ../MaxGallery/lib/max_gallery/core/api/group_api.ex
-badd +1 lib/ctf_telemetry/core/api/players_api.ex
+badd +55 lib/ctf_telemetry/core/api/players_api.ex
 badd +1 ../Hack/mix.exs
 badd +3 lib/ctf_telemetry/cli.ex
-badd +27 lib/ctf_telemetry.ex
+badd +24 lib/ctf_telemetry.ex
 badd +16 lib/ctf_telemetry/server/reader_server.exs
 badd +3 ../MaxGallery/lib/max_gallery/server/live_server.ex
 badd +2 ../MaxGallery/lib/max_gallery/application.ex
@@ -40,6 +40,8 @@ badd +5 .gitignore
 argglobal
 %argdel
 $argadd mix.exs
+tabnew +setlocal\ bufhidden=wipe
+tabnew +setlocal\ bufhidden=wipe
 tabnew +setlocal\ bufhidden=wipe
 tabnew +setlocal\ bufhidden=wipe
 tabnew +setlocal\ bufhidden=wipe
@@ -97,12 +99,12 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 27 - ((15 * winheight(0) + 15) / 30)
+let s:l = 35 - ((21 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 27
-normal! 0
+keepjumps 35
+normal! 033|
 tabnext
 edit lib/ctf_telemetry/server/reader_server.ex
 argglobal
@@ -117,12 +119,12 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 13 - ((12 * winheight(0) + 15) / 30)
+let s:l = 47 - ((29 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 13
-normal! 013|
+keepjumps 47
+normal! 0
 tabnext
 edit config/config.exs
 argglobal
@@ -156,13 +158,51 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 8 - ((7 * winheight(0) + 15) / 30)
+let s:l = 74 - ((17 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 8
-normal! 019|
-tabnext 4
+keepjumps 74
+normal! 050|
+tabnext
+edit lib/ctf_telemetry/core/players.ex
+argglobal
+setlocal foldmethod=manual
+setlocal foldexpr=0
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 5 - ((4 * winheight(0) + 15) / 30)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 5
+normal! 010|
+tabnext
+edit lib/ctf_telemetry/core/api/players_api.ex
+argglobal
+setlocal foldmethod=manual
+setlocal foldexpr=0
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 59 - ((8 * winheight(0) + 15) / 30)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 59
+normal! 023|
+tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
 endif

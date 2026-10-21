@@ -13,6 +13,10 @@ defmodule CtfTelemetry do
         string = String.slice(string, 7..-2//1)
         # If all matchs, so execute the delegate function
         if string != " ", do: chat_delegate(string)
+
+      # If no one above, just return a nil
+      true ->
+        nil
     end
   end
 
