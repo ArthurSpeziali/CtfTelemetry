@@ -11,6 +11,21 @@ defmodule CtfTelemetry.Server.ReaderServer do
 
   @impl true
   def init(_state) do
+    # Create or load the JSON Statistics Configuration
+    statistics = load_json()
+
+    # Compare the last inode saved with the new
+    inode = File.stat!(@log).inode
+
+    if statistics["last_inode"] == inode do
+      # If the file already read before, truncates it now
+      File.write!(@log, "", [:write])
+    else
+      # If not, add in JSON Statistics Configuration 
+      dump_json(%{inode: inode})
+    end
+
+    # Streams the file. Just pick what you need (Lazying)
     stream = File.stream!(@log)
 
     # Link the new spawning function to the GenServer (If one dies, the server die)
@@ -53,5 +68,41 @@ defmodule CtfTelemetry.Server.ReaderServer do
       next,
       Enum.count(stream)
     )
+  end
+
+  # Private funtions 
+  defp load_json() do
+    if File.exists?("statistics.json") do
+      File.read!("statistics.json")
+      |> JSON.decode!()
+    else
+      content =
+        Application.get_env(:ctf_telemetry, :statistics_config)
+        |> JSON.encode!()
+
+      File.write!("statistics.json", content)
+      content
+    end
+  end
+
+  defp dump_json(update_map) do
+    if File.exists?("statistics.json") do
+      old_config =
+        File.read!("statistics.json")
+        |> JSON.decode!()
+
+      new_config =
+        Map.merge(old_config, update_map)
+        |> JSON.encode!()
+
+      File.write!("statistics.json", new_config)
+    else
+      content =
+        Application.get_env(:ctf_telemetry, :statistics_config)
+        |> JSON.encode!()
+
+      File.write!("statistics.json", content)
+      content
+    end
   end
 end

@@ -2,7 +2,10 @@ import Config
 
 config :ctf_telemetry,
   minecraft_path: "~/.minecraft",
-  buffer_time_reader: 5
+  buffer_time_reader: 5,
+  statistics_config: %{
+    "last_inode" => nil
+  }
 
 config :ctf_telemetry,
   ecto_repos: [CtfTelemetry.Repo]
