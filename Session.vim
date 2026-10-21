@@ -31,13 +31,13 @@ badd +19 ../MaxGallery/lib/max_gallery/core/api/group_api.ex
 badd +55 lib/ctf_telemetry/core/api/players_api.ex
 badd +1 ../Hack/mix.exs
 badd +3 lib/ctf_telemetry/cli.ex
-badd +1 lib/ctf_telemetry.ex
+badd +32 lib/ctf_telemetry.ex
 badd +16 lib/ctf_telemetry/server/reader_server.exs
 badd +3 ../MaxGallery/lib/max_gallery/server/live_server.ex
 badd +2 ../MaxGallery/lib/max_gallery/application.ex
-badd +18 lib/ctf_telemetry/server/reader_server.ex
+badd +48 lib/ctf_telemetry/server/reader_server.ex
 badd +5 .gitignore
-badd +36 lib/ctf_telemetry/delegate.ex
+badd +24 lib/ctf_telemetry/delegate.ex
 badd +95 README.md
 argglobal
 %argdel
@@ -62,7 +62,7 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 25 - ((23 * winheight(0) + 15) / 30)
+let s:l = 25 - ((24 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -81,7 +81,7 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 13 - ((12 * winheight(0) + 15) / 30)
+let s:l = 13 - ((12 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -101,12 +101,12 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 52 - ((0 * winheight(0) + 15) / 30)
+let s:l = 32 - ((31 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 52
-normal! 03|
+keepjumps 32
+normal! 019|
 tabnext
 edit lib/ctf_telemetry/delegate.ex
 argglobal
@@ -121,12 +121,12 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 31 - ((24 * winheight(0) + 15) / 30)
+let s:l = 25 - ((24 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 31
-normal! 030|
+keepjumps 25
+normal! 047|
 tabnext
 edit lib/ctf_telemetry/server/reader_server.ex
 argglobal
@@ -141,12 +141,12 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 18 - ((16 * winheight(0) + 15) / 30)
+let s:l = 31 - ((13 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 18
-normal! 029|
+keepjumps 31
+normal! 05|
 tabnext
 edit config/config.exs
 argglobal
@@ -160,7 +160,7 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 7 - ((6 * winheight(0) + 15) / 30)
+let s:l = 7 - ((6 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -179,7 +179,7 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 16 - ((15 * winheight(0) + 15) / 30)
+let s:l = 16 - ((15 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -198,13 +198,13 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 59 - ((8 * winheight(0) + 15) / 30)
+let s:l = 59 - ((10 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 59
 normal! 023|
-tabnext 5
+tabnext 3
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
 endif

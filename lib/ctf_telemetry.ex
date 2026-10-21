@@ -10,7 +10,7 @@ defmodule CtfTelemetry do
       # If exists, update the register
       {:ok, querry} ->
         Api.update(
-          nick,
+          querry.id,
           %{kills: querry.kills + 1}
         )
 
@@ -29,7 +29,7 @@ defmodule CtfTelemetry do
       # If exists, update the register
       {:ok, querry} ->
         Api.update(
-          nick,
+          querry.id,
           %{deaths: querry.deaths + 1}
         )
 

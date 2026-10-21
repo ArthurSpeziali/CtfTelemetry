@@ -81,7 +81,7 @@ defmodule CtfTelemetry.Server.ReaderServer do
         |> JSON.encode!()
 
       File.write!("statistics.json", content)
-      content
+      JSON.encode!(content)
     end
   end
 
